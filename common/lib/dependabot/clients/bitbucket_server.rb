@@ -212,16 +212,12 @@ module Dependabot
 
       def conn
         @conn = ::Faraday.new do |faraday|
-          faraday.basic_auth(username, password)
+          faraday.authorization :Bearer, password
           faraday.request :json
           faraday.request :multipart
           faraday.response :json, content_type: /\bjson$/
           faraday.adapter Faraday.default_adapter
         end
-      end
-
-      def username
-        credentials&.dig("username")
       end
 
       def password
